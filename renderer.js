@@ -978,26 +978,22 @@ window.addEventListener('DOMContentLoaded', () => {
   applyStaticAssets();
   initSession();
 
-  // Ensure no stale service worker/cache interferes with Supabase requests in dev or packaged builds.
+  // Disable SW caching; just clean up any old workers/caches so Supabase calls are always live in npm start, dmg, and zip.
   const CACHE_PREFIX = 'venice-local-cache';
-  const clearStaleCaches = async () => {
-    if (!('caches' in window)) return;
-    const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k.startsWith(CACHE_PREFIX)).map(k => caches.delete(k)));
-  };
-
-  const registerSw = async () => {
-    if (!('serviceWorker' in navigator)) return;
+  const cleanCachesAndWorkers = async () => {
     try {
-      // Unregister any old workers first.
-      const regs = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r => r.unregister()));
-      await clearStaleCaches();
-      await navigator.serviceWorker.register('service-worker.js');
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.filter(k => k.startsWith(CACHE_PREFIX)).map(k => caches.delete(k)));
+      }
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(r => r.unregister()));
+      }
     } catch (err) {
-      console.warn('Service worker registration failed.', err.message);
+      console.warn('Service worker cleanup failed.', err.message);
     }
   };
 
-  registerSw();
+  cleanCachesAndWorkers();
 });

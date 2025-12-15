@@ -1,4 +1,4 @@
-const CACHE_NAME = 'venice-local-cache-v2';
+const CACHE_NAME = 'venice-local-cache-v4';
 const OFFLINE_ASSETS = [
   './',
   './index.html',
@@ -33,6 +33,14 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
+
+  // Never cache Supabase/API calls; always hit network so auth headers work.
+  const url = new URL(request.url);
+  if (url.hostname.includes('supabase.co')) {
+    event.respondWith(fetch(request).catch(() => Response.error()));
+    return;
+  }
+
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;

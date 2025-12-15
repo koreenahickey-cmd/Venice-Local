@@ -1,47 +1,49 @@
-# Venice Local (FBLA Byte-Sized Business Boost)
+# Venice Local
 
 ![Venice Local logo](assets/venice-local.png)
 
-Electron desktop prototype that helps Venice, FL residents and visitors discover and support local businesses. The app runs fully offline using `localStorage` and ships with owner tools, human-verified reviews, and favorites.
+Welcome to **Venice Local**! This is our **2025–2026 FBLA Coding & Programming Project**. Venice Local is a desktop application designed to help users discover and support **small, local businesses in Venice, Florida**.
 
-## Prerequisites
-- Node.js 18+ (includes npm)
-- macOS, Windows, or Linux (Electron target)
+Local business owners can add their businesses to the app, and community members can browse listings, leave reviews, and save their favorite places. **If a business is offering a special deal or promotion, it will be displayed on the business’s listing.** The app uses a backend created with **Supabase** to securely store business listings, reviews, and user data so information is saved and updated in real time. The goal of this project is to strengthen the local community by making it easier for people to find and support nearby businesses.
 
-## Setup
-1. Install dependencies  
-   ```bash
-   npm install
-   ```
-2. (Optional) If the repo isn’t on your machine yet, clone it first:  
-   ```bash
-   git clone <repo-url>
-   cd FBLA-4th
-   npm install
-   ```
+---
 
-## Run in development (opens the app)
-Start Electron and launch the UI in a window:
-```bash
-npm start
-```
-The app will open immediately. If it doesn’t, check the terminal for errors and re-run `npm start` after installing dependencies.
+## How to Run #1  
+*(To be completed)*
 
-## Build a packaged app
-Create a distributable for your current OS with electron-builder:
-```bash
-npm run dist
-```
-The installer/output lives in `dist/` (e.g., `.dmg` on macOS, `.exe` on Windows, `.AppImage` on Linux). Open the generated file to install/run the packaged app.
+---
 
-## What you get
-- Local authentication with bot checks (math + keyword challenges)
-- Business Owner vs. Local Customer roles
-- Browse, search, and filter businesses by category
-- Sort by rating, review count, or alphabetically
-- Detailed business view with specials/coupons
-- Verified reviews and ratings stored locally
-- Favorites per user and a dedicated “My Favorites” view
-- Owners can add and edit their own businesses
+## How to Run #2
+*(To be completed)*
 
-All data lives locally and is pre-seeded with downtown Venice, FL listings so the prototype works offline.
+---
+
+## Directions to Use  
+To use Venice Local, launch the application and browse through local businesses listed in Venice, FL. Users can explore businesses by category, view details, leave reviews, and bookmark their favorite businesses for easy access later. Business owners can also submit their own businesses to be featured in the app.
+
+---
+
+## Developers  
+Koreena Hickey  
+Emma Nguyen  
+
+---
+
+## Software & Languages Used  
+Visual Studio Code  
+GitHub  
+Supabase  
+JavaScript  
+HTML  
+CSS  
+
+---
+
+## Credits  
+App logo created by **Emma Nguyen**.
+*(insert font credit)*
+
+---
+
+## Contact  
+For any questions please email **emmanguyen0915@gmail.com**!

@@ -4,7 +4,7 @@
 
 Welcome to Venice Local! This is our 2025–2026 FBLA Coding & Programming Project. Venice Local is a desktop application designed to help users discover and support small, local businesses in Venice, Florida.
 
-Local business owners can add their businesses to the app, and community members can browse listings, leave reviews, and save their favorite places. If a business is offering a special deal or promotion, it will be displayed on the business’s listing. The app uses a backend created with **Supabase** to securely store business listings, reviews, and user data so information is saved and updated in real time. The goal of this project is to strengthen the local community by making it easier for people to find and support nearby businesses.
+Local business owners can add their businesses to the app, and community members can browse listings, leave reviews, and save their favorite places. If a business is offering a special deal or promotion, it will be displayed on the business’s listing. The app uses a backend created with Supabase to securely store business listings, reviews, and user data so information is saved and updated in real time. The goal of this project is to strengthen the local community by making it easier for people to find and support nearby businesses.
 
 ---
 

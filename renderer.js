@@ -3,7 +3,7 @@
 
 const { createClient } = require('@supabase/supabase-js');
 
-// --- Supabase configuration and asset references ---
+// --- Supabase configuration and asset references (updated) ---
 const SUPABASE_URL = 'https://rysbzmizspfuacnjgvfm.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5c2J6bWl6c3BmdWFjbmpndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzOTg4ODAsImV4cCI6MjA4MDk3NDg4MH0.vaOqAerIqNvreFi2MIDiEgW0Ci348R6b9qtzbYZsh4s';
 const assetUrl = (file) => new URL(`./assets/${file}`, window.location.href).href;
@@ -14,7 +14,11 @@ const STORAGE_BUCKET = 'business-media';
 const BUSINESS_PHOTO_PLACEHOLDER = BACKGROUND_IMAGE;
 
 // Create Supabase client to talk to auth + database.
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Force use of the browser fetch (not Node) so packaged/zipped builds
+// don't hit Node's network stack and get connection resets.
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  global: { fetch: (...args) => window.fetch(...args) }
+});
 
 // --- In-memory state for the current session ---
 let currentUser = null;
@@ -73,12 +77,13 @@ function mapBusinessToDb(biz) {
 async function fetchProfile(userId) {
   // Load a profile row for the signed-in user.
   if (!userId) return null;
-  const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
-  if (error) {
+  try {
+    const data = await restGet(`/profiles?id=eq.${userId}&limit=1`);
+    return data?.[0] || null;
+  } catch (error) {
     console.warn('Profile fetch failed', error.message);
     return null;
   }
-  return data;
 }
 
 async function upsertProfile({ id, name, role, avatar, email }) {
@@ -97,6 +102,23 @@ function setBusinessLoadError(message = '') {
   // Surface data loading issues in the UI.
   const el = document.getElementById('business-load-error');
   if (el) el.textContent = message;
+}
+
+async function restGet(path) {
+  // Use plain fetch to Supabase REST to avoid client fetch differences across builds.
+  const url = `${SUPABASE_URL}/rest/v1${path}`;
+  const res = await window.fetch(url, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      Accept: 'application/json'
+    }
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`REST ${res.status}: ${text || res.statusText}`);
+  }
+  return res.json();
 }
 
 async function fetchReviewsForBusinesses(ids = []) {
@@ -127,9 +149,8 @@ async function fetchReviewsForBusinesses(ids = []) {
 async function fetchBusinesses() {
   // Retrieve all businesses, attach reviews, and compute ratings.
   try {
-    const { data, error } = await supabase.from('businesses').select('*').order('name');
-    if (error) throw error;
-    const mapped = (data || []).map(mapBusinessFromDb).filter(Boolean);
+    const data = await restGet('/businesses?select=*&order=name.asc');
+    const mapped = (data ?? []).map(mapBusinessFromDb).filter(Boolean);
     const reviewMap = await fetchReviewsForBusinesses(mapped.map((b) => b.id));
     mapped.forEach((biz) => {
       const reviews = reviewMap[biz.id] || biz.reviews || [];
@@ -139,8 +160,9 @@ async function fetchBusinesses() {
     setBusinessLoadError(mapped.length ? '' : 'No businesses found in Supabase.');
     return mapped;
   } catch (err) {
-    console.error('Failed to fetch businesses', err.message);
-    setBusinessLoadError('Could not load businesses from Supabase. Check your connection or Supabase policies.');
+    console.error('Failed to fetch businesses', err);
+    const detail = err?.message || 'Unknown error';
+    setBusinessLoadError(`Could not load businesses from Supabase: ${detail}. Check connection and RLS policies.`);
     return [];
   }
 }
@@ -148,12 +170,13 @@ async function fetchBusinesses() {
 async function fetchFavoritesForUser(userId) {
   // Load the IDs the user has saved as favorites.
   if (!userId) return [];
-  const { data, error } = await supabase.from('favorites').select('business_id').eq('user_id', userId);
-  if (error) {
+  try {
+    const data = await restGet(`/favorites?select=business_id&user_id=eq.${userId}`);
+    return data.map(r => r.business_id);
+  } catch (error) {
     console.warn('Favorites fetch failed', error.message);
     return [];
   }
-  return data.map(r => r.business_id);
 }
 
 async function syncBusinessesAndFavorites() {
@@ -178,9 +201,13 @@ function buildAvatarPlaceholder(name = 'Guest') {
 async function checkBusinessPhotoSupport() {
   // Detect if the photo_url column exists before allowing uploads.
   if (businessPhotoSupported) return true;
-  const { error } = await supabase.from('businesses').select('photo_url').limit(1);
-  businessPhotoSupported = !error;
-  if (error) console.warn('Business photo column missing. Add photo_url to businesses to enable photos.');
+  try {
+    await restGet('/businesses?select=photo_url&limit=1');
+    businessPhotoSupported = true;
+  } catch (error) {
+    businessPhotoSupported = false;
+    console.warn('Business photo column missing. Add photo_url to businesses to enable photos.');
+  }
   return businessPhotoSupported;
 }
 

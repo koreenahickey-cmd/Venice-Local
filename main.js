@@ -18,7 +18,8 @@ function createWindow() {
     }
   });
 
-  win.loadFile('index.html');
+  // Use an absolute path so packaged ZIP/DMG can always resolve assets relative to index.html.
+  win.loadFile(path.join(__dirname, 'index.html'));
 }
 
 app.whenReady().then(() => {

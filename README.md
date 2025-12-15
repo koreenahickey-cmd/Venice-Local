@@ -37,6 +37,12 @@ Emma Nguyen
 
 ---
 
+## Default Accounts
+EMAIL: `businessowner@gmail.com` PASSWORD: `FBLA2025`
+EMAIL: `reviewer@gmail.com` PASSWORD: `FBLA2025`
+
+---
+
 ## Software & Languages Used  
 Visual Studio Code  
 GitHub  

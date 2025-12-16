@@ -1,7 +1,23 @@
 // Electron main process for Venice Local
 // Creates the desktop window and loads our app shell.
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, session } = require('electron');
+const fs = require('fs/promises');
 const path = require('path');
+
+async function clearAppData() {
+  // Clear cache and storage so packaged builds start clean.
+  const userData = app.getPath('userData');
+  const serviceWorkerPath = path.join(userData, 'Service Worker');
+
+  // Remove the Service Worker folder directly; clearStorageData sometimes fails if it's corrupted.
+  await fs.rm(serviceWorkerPath, { recursive: true, force: true }).catch(() => {});
+
+  const ses = session.defaultSession;
+  await ses.clearCache();
+  await ses.clearStorageData({
+    storages: ['serviceworkers', 'caches', 'indexdb', 'localstorage']
+  });
+}
 
 function createWindow() {
   // Build the main browser window with preload access.
@@ -22,8 +38,9 @@ function createWindow() {
   win.loadFile(path.join(__dirname, 'index.html'));
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Show the UI when Electron is ready.
+  await clearAppData();
   createWindow();
 
   app.on('activate', () => {

@@ -19,7 +19,7 @@ Local business owners can add their businesses to the app, and community members
 ---
 
 ## Get the Project
-- GitHub: https://github.com/EmmaNguyen915/FBLA-4th (Code -> Download ZIP) or `git clone https://github.com/EmmaNguyen915/FBLA-4th.git`
+- GitHub: https://github.com/koreenahickey-cmd/Venice-Local.git (Code -> Download ZIP) or `git clone (https://github.com/koreenahickey-cmd/Venice-Local.git)`
 - Make sure Node.js 18+ is installed (macOS: `brew install node`, Windows: download from nodejs.org).
 
 ## Open and Run (source code)

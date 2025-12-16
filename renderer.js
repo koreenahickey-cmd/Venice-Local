@@ -1,24 +1,15 @@
 // Renderer process logic for Venice Local
 // Now uses Supabase for auth and business storage so data syncs across devices.
 
-const { createClient } = require('@supabase/supabase-js');
+const { supabase, SUPABASE_URL, SUPABASE_ANON_KEY } = require('./supabaseClient');
 
 // --- Supabase configuration and asset references (updated) ---
-const SUPABASE_URL = 'https://rysbzmizspfuacnjgvfm.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5c2J6bWl6c3BmdWFjbmpndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzOTg4ODAsImV4cCI6MjA4MDk3NDg4MH0.vaOqAerIqNvreFi2MIDiEgW0Ci348R6b9qtzbYZsh4s';
 const assetUrl = (file) => new URL(`./assets/${file}`, window.location.href).href;
 const LOGO = assetUrl('venice-local.png');
 const DEFAULT_AVATAR = assetUrl('Default_pfp.svg.png');
 const BACKGROUND_IMAGE = assetUrl('downtown-venice.webp');
 const STORAGE_BUCKET = 'business-media';
 const BUSINESS_PHOTO_PLACEHOLDER = BACKGROUND_IMAGE;
-
-// Create Supabase client to talk to auth + database.
-// Force use of the browser fetch (not Node) so packaged/zipped builds
-// don't hit Node's network stack and get connection resets.
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  global: { fetch: (...args) => window.fetch(...args) }
-});
 
 // --- In-memory state for the current session ---
 let currentUser = null;

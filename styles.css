@@ -1271,3 +1271,355 @@ button:focus-visible { outline: 2px solid rgba(23, 95, 98, 0.4); outline-offset:
     display: none;
   }
 }
+
+@media (max-width: 600px) {
+  html {
+    background: var(--bg);
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  #auth-screen {
+    min-height: 100svh;
+    padding: max(12px, env(safe-area-inset-top)) 12px max(18px, env(safe-area-inset-bottom));
+    align-items: flex-start;
+  }
+
+  .auth-container {
+    padding: 0;
+  }
+
+  .auth-card {
+    max-height: none;
+    min-height: calc(100svh - 30px);
+    padding: 18px 14px 20px;
+    border-radius: 16px;
+    gap: 10px;
+  }
+
+  .auth-logo {
+    padding: 8px 12px;
+    border-radius: 14px;
+  }
+
+  .auth-logo img {
+    height: 82px;
+  }
+
+  .auth-hero h1 {
+    margin: 4px 0 0;
+    font-size: 30px;
+  }
+
+  .auth-hero p {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .auth-card .card,
+  .card {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  #signup-form {
+    grid-template-columns: 1fr;
+  }
+
+  .turnstile-wrapper {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 2px;
+  }
+
+  .instructions-launch {
+    left: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    padding: 9px 12px;
+  }
+
+  .instructions-panel {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .instructions-card {
+    max-height: calc(100svh - 24px);
+    overflow-y: auto;
+    padding: 14px;
+  }
+
+  .topbar {
+    position: sticky;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    padding: max(10px, env(safe-area-inset-top)) 12px 10px;
+  }
+
+  .topbar-left {
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .topbar .brand {
+    flex: 0 0 auto;
+    padding: 0;
+  }
+
+  .brand img {
+    height: 54px;
+  }
+
+  .nav-actions {
+    flex: 1 1 auto;
+    width: auto;
+    justify-content: flex-start;
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 2px 2px 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-btn {
+    flex: 0 0 auto;
+    padding: 9px 11px;
+    border-radius: 999px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .profile-actions {
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    padding-top: 8px;
+  }
+
+  .profile-actions .nav-btn {
+    padding: 8px 0;
+  }
+
+  .avatar-chip {
+    width: 36px;
+    height: 36px;
+    box-shadow: none;
+  }
+
+  .content {
+    width: 100%;
+    padding: 14px 12px 24px;
+  }
+
+  .section-header {
+    margin: 6px 0 12px;
+  }
+
+  .section-header h2,
+  .form-card h2,
+  .card h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .filter-group,
+  .card-grid,
+  .dashboard-grid,
+  .owner-list,
+  .gallery-strip,
+  .review-photos {
+    grid-template-columns: 1fr;
+  }
+
+  .filters {
+    margin-bottom: 12px;
+  }
+
+  label {
+    margin: 8px 0 2px;
+  }
+
+  label input,
+  label select,
+  label textarea {
+    min-height: 44px;
+    border-radius: 9px;
+    font-size: 16px;
+  }
+
+  button {
+    min-height: 42px;
+  }
+
+  .business-photo img {
+    height: 190px;
+  }
+
+  .business-card .description {
+    min-height: 0;
+  }
+
+  .card-header,
+  .card-footer,
+  .coupon-body,
+  .reports-toolbar,
+  .dashboard-header,
+  .profile-avatar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-footer,
+  .detail-actions,
+  .owner-card .actions,
+  .lightbox-controls {
+    gap: 10px;
+  }
+
+  .card-footer button,
+  .detail-actions button,
+  .owner-card .actions button,
+  .reports-toolbar button,
+  .form-card form button,
+  .profile-photo-form button,
+  .review-form button {
+    width: 100%;
+  }
+
+  .rating-chip,
+  .deal-pill {
+    align-self: flex-start;
+  }
+
+  .stat-card h3 {
+    font-size: 28px;
+    margin-bottom: 0;
+  }
+
+  .report-table th,
+  .report-table td {
+    min-width: 112px;
+  }
+
+  .deal-field {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid rgba(23, 95, 98, 0.12);
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .deal-active,
+  .deal-field .ghost-btn.small {
+    justify-self: stretch;
+  }
+
+  .deal-field .ghost-btn.small {
+    width: 100%;
+  }
+
+  .checkbox-inline,
+  .checkbox-inline span {
+    white-space: normal;
+  }
+
+  .modal {
+    padding: max(76px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
+    align-items: stretch;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-height: calc(100svh - 86px);
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+
+  .close-btn {
+    top: 8px;
+    right: 8px;
+    min-height: 36px;
+    font-size: 24px;
+    box-shadow: none;
+  }
+
+  .detail-header {
+    gap: 8px;
+    padding-right: 36px;
+  }
+
+  .rating-large {
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 999px;
+    font-size: 24px;
+  }
+
+  .detail-photo img {
+    max-height: 220px;
+  }
+
+  .map-shell iframe {
+    height: 220px;
+  }
+
+  .star-input {
+    gap: 3px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .star-input label {
+    font-size: 48px;
+  }
+
+  .lightbox .lightbox-content {
+    width: 100%;
+    max-height: calc(100svh - 20px);
+    border-radius: 14px;
+  }
+
+  .lightbox img {
+    max-height: 62svh;
+  }
+
+  .lightbox-controls {
+    width: 100%;
+  }
+
+  .lightbox-controls button {
+    flex: 1 1 0;
+  }
+
+  .app-footer {
+    width: calc(100% - 24px);
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+
+  .app-footer p {
+    border-radius: 10px;
+  }
+
+  #app-screen::before,
+  #app-screen::after,
+  #app-screen .sky-sun,
+  #app-screen .bird {
+    display: none;
+  }
+}
